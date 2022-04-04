@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <ul>
+        <li>
+          <a
+            @click.prevent="fetchBitcoin"
+            href="https://www.mercadobitcoin.net/api/ETH/ticker/"
+            >Etherium</a
+          >
+        </li>
+        <li>
+          <a
+            @click.prevent="fetchEtherium"
+            href="https://www.mercadobitcoin.net/api/BTC/ticker/"
+            >Bitcoin</a
+          >
+        </li>
+      </ul>
+      <p>{{bitcoin}}</p>
+    </div>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {},
+        methods: {
+          fetchBitcoin(e) {
+            // console.log(e.currentTarget.href);
+            const link = e.currentTarget.href;
+
+            fetch(link)
+              .then((r) => r.json)
+              .then((bitcoin) => (this.data = bitcoin));
+          },
+          fetchEtherium(e) {
+            const link = e.currentTarget.href;
+            fetch(link)
+              .then((r) => r.json)
+              .then((etherium) => (this.data = etherium));
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
