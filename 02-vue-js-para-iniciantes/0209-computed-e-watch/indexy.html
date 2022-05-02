@@ -29,16 +29,37 @@
   </select>
 -->
 
+        <div id="app">
+            <select name="paises" id="paises" v-model="selecionado">
+                <option v-for="pais in paises">{{pais.name.common}}</option>
+            </select>
+            <h1>{{selecionado}}</h1>
+            <h3>{{capital.capital}}</h3>
+        </div>
+
         <script>
             const vm = new Vue({
                 el: "#app",
                 data: {
-                    nome: "André",
-                    sobrenome: "Rafael",
+                    selecionado: "",
+                    capital: "",
+                    paises: {},
                 },
                 computed: {
-                    nomeCompleto() {
-                        return this.nome + " " + this.sobrenome;
+                    country() {
+                        fetch("https://restcountries.com/v3.1/all")
+                            .then((r) => r.json())
+                            .then((r) => {
+                                this.paises = r;
+                                console.log(r);
+                            });
+                    },
+                },
+                watch: {
+                    selecionado(valor) {
+                        this.capital = this.paises.find(
+                            (pais) => pais.name.common === valor
+                        );
                     },
                 },
             });

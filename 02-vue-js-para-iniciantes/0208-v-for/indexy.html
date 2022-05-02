@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="./vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <button @click="puxarAula">Puxar</button>
+            <ul>
+                <li v-for="curso, key in cursos">
+                    <a :href="curso.link"> {{curso.curso}}</a>
+                    <ul>
+                        <li v-for="aula in curso.aulas">
+                            {{aula.nome}}
+                            <ul>
+                                <li v-for="dado, key in aula">
+                                    {{key}}: {{dado}}
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </body>
+    <script>
+        const vue = new Vue({
+            el: "#app",
+            data: {
+                cursos: {},
+            },
+            methods: {
+                puxarAula() {
+                    fetch("./cursos.json")
+                        .then((r) => r.json())
+                        .then((r) => {
+                            this.cursos = r;
+                        });
+                },
+            },
+        });
+    </script>
+</html>

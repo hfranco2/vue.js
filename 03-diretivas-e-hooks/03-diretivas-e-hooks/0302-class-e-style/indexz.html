@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="./vue.js"></script>
+        <style>
+            .verde {
+                color: green;
+            }
+            .ativo {
+                background-color: red;
+            }
+            .cor {
+                color: blue;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <p :class="{ativo:estaAtivo, cor: possuiCor}">Texto</p>
+
+            <button @click="estaAtivo = !estaAtivo, possuiCor=!possuiCor">
+                Trocar
+            </button>
+            <a :style="{'background-color': 'green', fontSize : fontSize+'px'}"
+                >Estilize ele</a
+            >
+        </div>
+    </body>
+    <script>
+        const vue = new Vue({
+            el: "#app",
+            data: {
+                estaAtivo: true,
+                possuiCor: false,
+                fontSize: 20,
+            },
+        });
+    </script>
+</html>

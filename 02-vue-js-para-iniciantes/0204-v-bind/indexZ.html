@@ -1,50 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="./vue.js"></script>
-  </head>
-  <body>
-    <div id="app">
-      <p>{{bitcoin.ticker}}</p>
-      <p :class="bitcoin.ticker > etherium.ticker ? 'verde' : 'vermelho'">
-        {{etherium.ticker}}
-      </p>
-      <button @click="puxarDados()">Get</button>
-    </div>
-    <script>
-      const vm = new Vue({
-        el: "#app",
-        data: {
-          bitcoin: {},
-          etherium: {},
-        },
-        methods: {
-          fetchBitcoin() {
-            fetch("https://www.mercadobitcoin.net/api/BTC/ticker/")
-              .then((r) => r.json())
-              .then((bitcoin) => {
-                this.bitcoin = bitcoin;
-                console.log(bitcoin.ticker.last);
-              });
-          },
-          fetchEtherium() {
-            fetch("https://www.mercadobitcoin.net/api/ETH/ticker/")
-              .then((r) => r.json())
-              .then((etherium) => {
-                this.etherium = etherium;
-                console.log(etherium.ticker.last);
-              });
-          },
-          puxarDados() {
-            this.fetchBitcoin();
-            this.fetchEtherium();
-          },
-        },
-      });
-    </script>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="./vue.js"></script>
+        <style>
+            .vermelho {
+                color: red;
+            }
+            .verde {
+                color: green;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <p
+                v-if="bitcoin.ticker"
+                :class="bitcoin.ticker.last > bitcoin.ticker.buy ? 'verde' : 'vermelho'"
+            >
+                Cotação Bitcoin: {{bitcoin.ticker.last}}
+            </p>
+            <p
+                v-if="bitcoin.ticker"
+                :class="etherium.ticker.last > etherium.ticker.buy ? 'verde' : 'vermelho'"
+            >
+                Cotação Etherium: {{etherium.ticker.last}}
+            </p>
+
+            <button @click="puxarDados()">Get</button>
+        </div>
+        <script>
+            const vm = new Vue({
+                el: "#app",
+                data() {
+                    return {
+                        bitcoin: {},
+                        etherium: {},
+                    };
+                },
+                methods: {
+                    fetchBitcoin() {
+                        fetch("https://www.mercadobitcoin.net/api/BTC/ticker/")
+                            .then((r) => r.json())
+                            .then((bitcoin) => {
+                                this.bitcoin = bitcoin;
+                                console.log(bitcoin.ticker.last);
+                            });
+                    },
+                    fetchEtherium() {
+                        fetch("https://www.mercadobitcoin.net/api/ETH/ticker/")
+                            .then((r) => r.json())
+                            .then((etherium) => {
+                                this.etherium = etherium;
+                                console.log(etherium.ticker.last);
+                            });
+                    },
+                    puxarDados() {
+                        this.fetchBitcoin();
+                        this.fetchEtherium();
+                    },
+                },
+            });
+        </script>
+    </body>
 </html>
